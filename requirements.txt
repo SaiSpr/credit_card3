@@ -23,3 +23,4 @@ shap
 lightgbm==2.2.3
 streamlit-echarts==0.4.0
 seaborn
+pandas==1.4.4
