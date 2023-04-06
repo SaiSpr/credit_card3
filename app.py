@@ -57,41 +57,54 @@ clients_id = df_test_prod["SK_ID_CURR"].tolist()
 
 @app.post('/predict')
 def predict(data : fraudDetection):
+	
                                                                                                                                                                                                                                 
     features = np.array([data.step])
-#     model = joblib.load('credit_fraud.pkl')
 
-#     predictions = model.predict(features)
-#     if predictions == 1:
-#         return {"Bad"}
-#     elif predictions == 0:
-#         return {"not Bad"}
+    client_id = features[0]
+	
+# sync def predict(client_id : int):
+    predictions = model.predict_proba(data).tolist()
+    predict_proba = []
+    for pred, ID in zip(predictions, list_ID):
+        if ID == client_id:
+            predict_proba.append(pred[1])
+    return predict_proba[0]
+                                                                                                                                                                                                                                
+#     features = np.array([data.step])
+# #     model = joblib.load('credit_fraud.pkl')
 
-    id = features[0]
+# #     predictions = model.predict(features)
+# #     if predictions == 1:
+# #         return {"Bad"}
+# #     elif predictions == 0:
+# #         return {"not Bad"}
 
-    if id not in clients_id:
-        raise HTTPException(status_code=404, detail="client's id not found")
+#     id = features[0]
+
+#     if id not in clients_id:
+#         raise HTTPException(status_code=404, detail="client's id not found")
     
-    else:
+#     else:
         
         
-        pipe_prod = joblib.load('LGBM_pipe_version7.pkl')
+#         pipe_prod = joblib.load('LGBM_pipe_version7.pkl')
     
-        values_id_client = df_test_prod_request.loc[[id]]
+#         values_id_client = df_test_prod_request.loc[[id]]
        
-        # Définir le best threshold
-        prob_preds = pipe_prod.predict_proba(values_id_client)
+#         # Définir le best threshold
+#         prob_preds = pipe_prod.predict_proba(values_id_client)
         
-        #Fast_API_prob_preds
-        threshold = 0.332# definir threshold ici
-        y_test_prob = [1 if prob_preds[i][1]> threshold else 0 for i in range(len(prob_preds))]
+#         #Fast_API_prob_preds
+#         threshold = 0.332# definir threshold ici
+#         y_test_prob = [1 if prob_preds[i][1]> threshold else 0 for i in range(len(prob_preds))]
         
        
-        return {
-            "prediction": y_test_prob[0],
-            "probability_0" : prob_preds[0][0],
-            "probability_1" : prob_preds[0][1],}
-#         return id
+#         return {
+#             "prediction": y_test_prob[0],
+#             "probability_0" : prob_preds[0][0],
+#             "probability_1" : prob_preds[0][1],}
+# #         return id
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8090)
