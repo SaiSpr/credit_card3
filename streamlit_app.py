@@ -26,6 +26,32 @@ st.image("image.jpg")
 
 
 
+
+
+###################################################
+
+API_PRED = "http://127.0.0.1:8000/predict/"
+
+data = joblib.load('sample_test_set.pickle')
+
+threshold = 100-10.344827586206896
+
+#Profile Client
+profile_ID = st.sidebar.selectbox('Sélectionnez un client :',
+                                  list(data.index))
+
+st.write("profile_ID")
+
+
+########################################################
+
+
+
+
+
+
+
+
 st.sidebar.header('Select the Client_id:')
 
 sender_name = 1
@@ -76,11 +102,16 @@ client_id = int(client_id)
 
 st.header(f'Credit request result for client {client_id}')
 
-    
-step = client_id
-    
 
+
+##################################    
+# step = client_id
+step = profile_ID    
+threshold = 100-10.344827586206896
+#########################################
     
+  
+  
 #################################################    
 def st_shap(plot, height=None):
     shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
@@ -137,12 +168,6 @@ if st.button("Detection Result"):
 
     Client Id is: {step}\n
     
-    type of client_id is : {type(step)}
-    
-    Values is : {values}
-    
-    Values tyep is : {type(values)}
-
                 """)
 
     res = re.post( url ="https://creditcard3-production.up.railway.app/predict", data = json.dumps(values))
@@ -154,13 +179,13 @@ if st.button("Detection Result"):
 #     st.write(type(json_str))
     resp = json.loads(json_str)
     
-#     prediction = res
-
-#     st.write(res)
-#     st.write(type(res))
-    
-#     st.write(resp)
-#     st.write(type(resp))
+#     API_GET = API_PRED+(str(profile_ID))
+#     score_client = 100-int(re.get(API_GET).json()*100)
+    score_client = resp
+    if score_client < threshold:
+        st.sidebar.write("Prêt refusé")
+    else:
+        st.sidebar.write("Prêt accordé.")
     
     pred = resp["prediction"]
 
