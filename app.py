@@ -13,7 +13,13 @@ app = FastAPI(
     version="1.0.0", debug=True)
 
 
-model = joblib.load('credit_fraud.pkl')
+# model = joblib.load('credit_fraud.pkl')
+# model = joblib.load('credit_fraud.pkl')
+model = joblib.load('model.pkl')
+data = joblib.load('sample_test_set.pickle')
+list_ID = data.index.tolist()
+# Enregistrer le model
+classifier = model.named_steps['classifier']
 
 @app.get("/", response_class=PlainTextResponse)
 async def running():
