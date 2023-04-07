@@ -36,19 +36,7 @@ async def favicon():
     return FileResponse(favicon_path)
 																	
 class fraudDetection(BaseModel):
-    step:float
-#     types:int
-#     amount:float	
-#     oldbalanceorig:float	
-#     newbalanceorig:float	
-#     oldbalancedest:float	
-#     newbalancedest:float	
-#     isflaggedfraud:float
-
-
-	
-	
-	
+    step:float	
 	
 #importer dataframe des données clients tests
 
@@ -112,5 +100,5 @@ def predict(data : fraudDetection):
 #             "probability_1" : prob_preds[0][1],}
 # #         return id
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8090)
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="127.0.0.1", port=8090)
