@@ -30,7 +30,7 @@ st.image("image.jpg")
 
 ###################################################
 
-API_PRED = "http://127.0.0.1:8000/predict/"
+# API_PRED = "http://127.0.0.1:8000/predict/"
 
 data = joblib.load('sample_test_set.pickle')
 
@@ -48,26 +48,7 @@ st.write("profile_ID")
 
 
 
-
-
-
-
 st.sidebar.header('Select the Client_id:')
-
-# sender_name = 1
-# receiver_name = 2
-
-# types = 4
-
-
-# amount = 4
-# oldbalanceorg = 5
-# newbalanceorg= 6
-# oldbalancedest=7
-# newbalancedest= 8
-# isflaggedfraud = 0
-
-
 
 
   
