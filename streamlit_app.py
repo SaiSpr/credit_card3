@@ -171,9 +171,10 @@ if st.button("Detection Result"):
                 """)
 
     res = re.post( url ="https://creditcard3-production.up.railway.app/predict", data = json.dumps(values))
-
-    json_str = json.dumps(res.json())
     
+    st.write("res", res)
+    json_str = json.dumps(res.json())
+    st.write("json_str", json_str)
         
 #     st.write(json_str)
 #     st.write(type(json_str))
