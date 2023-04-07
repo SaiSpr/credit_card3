@@ -36,7 +36,7 @@ async def favicon():
     return FileResponse(favicon_path)
 																	
 class fraudDetection(BaseModel):
-    step:float	
+     client_id:float
 	
 #importer dataframe des données clients tests
 
@@ -53,7 +53,7 @@ clients_id = df_test_prod["SK_ID_CURR"].tolist()
 def predict(data : fraudDetection):
 	
                                                                                                                                                                                                                                 
-    features = np.array([data.step])
+    features = np.array([data.client_id])
 
     client_id = features[0]
 	
