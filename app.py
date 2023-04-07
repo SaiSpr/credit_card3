@@ -51,27 +51,23 @@ def predict(data : fraudDetection):
 
     id = features[0]
 
-    if id not in clients_id:
-        raise HTTPException(status_code=404, detail="client's id not found")
+#     if id not in clients_id:
+#         raise HTTPException(status_code=404, detail="client's id not found")
     
-    else:
+#     else:
         
         
-        pipe_prod = joblib.load('LGBM_pipe_version7.pkl')
+#         pipe_prod = joblib.load('LGBM_pipe_version7.pkl')
     
-        values_id_client = df_test_prod_request.loc[[id]]
+#         values_id_client = df_test_prod_request.loc[[id]]
        
-        # Defining the best threshold
-        prob_preds = pipe_prod.predict_proba(values_id_client)
+#         # Defining the best threshold
+#         prob_preds = pipe_prod.predict_proba(values_id_client)
         
-        #Fast_API_prob_preds
-        threshold = 0.332 #threshold
-        y_test_prob = [1 if prob_preds[i][1]> threshold else 0 for i in range(len(prob_preds))]
+#         #Fast_API_prob_preds
+#         threshold = 0.332 #threshold
+#         y_test_prob = [1 if prob_preds[i][1]> threshold else 0 for i in range(len(prob_preds))]
         
        
-#         return {
-#             "prediction": y_test_prob[0],
-#             "probability_0" : prob_preds[0][0],
-#             "probability_1" : prob_preds[0][1],}
+    return {"prediction": id}
 
-	return id
