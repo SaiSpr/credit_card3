@@ -63,7 +63,9 @@ def predict(data : fraudDetection):
     for pred, ID in zip(predictions, list_ID):
         if ID == client_id:
             predict_proba.append(pred[1])
-    return predict_proba[0]
+#     return predict_proba[0]
+
+    return client_id
                                                                                                                                                                                                                                 
 #     features = np.array([data.step])
 # #     model = joblib.load('credit_fraud.pkl')
