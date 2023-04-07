@@ -30,14 +30,23 @@ st.image("image.jpg")
 
 ###################################################
 
-# API_PRED = "http://127.0.0.1:8000/predict/"
+data = joblib.load('sample_test_set.pickle')
+infos_client = joblib.load('infos_client.pickle')
+pret_client = joblib.load('pret_client.pickle')
+preprocessed_data = joblib.load('preprocessed_data.pickle')
+model = joblib.load('model.pkl')
+
+column_names = preprocessed_data.columns.tolist()
+expected_value = -2.9159221699244515
+threshold = 100-10.344827586206896
+
 
 data = joblib.load('sample_test_set.pickle')
 
 threshold = 100-10.344827586206896
 
 #Profile Client
-profile_ID = st.sidebar.selectbox('Sélectionnez un client :',
+profile_ID = st.sidebar.selectbox('Client Selection:',
                                   list(data.index))
 
 st.write("profile_ID")
@@ -141,13 +150,13 @@ df_train_rembourse = df_train_rembourse[cols_dashbord]
   
 if st.button("Detection Result"):
     values = {
-    "client_id": step,
+    "client_id": profile_ID,
     }
 
 
     st.write(f"""### These are the details:\n
 
-    Client Id is: {step}\n
+    Client Id is: {profile_ID}\n
     
                 """)
 
