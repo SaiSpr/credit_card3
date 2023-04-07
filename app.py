@@ -8,18 +8,12 @@ import pandas as pd
 
 
 app = FastAPI(
-    title="Credit Card Fraud Detection API",
-    description="""An API that utilises a Machine Learning model that detects if a credit card transaction is fraudulent or not based on the following features: hours, amount, transaction type etc.""",
+    title="Bank Loan Detection API",
+    description="""An API that utilises a Machine Learning model that detects the customers eligibility of a loan""",
     version="1.0.0", debug=True)
 
 
 # model = joblib.load('credit_fraud.pkl')
-# model = joblib.load('credit_fraud.pkl')
-model = joblib.load('model.pkl')
-data = joblib.load('sample_test_set.pickle')
-list_ID = data.index.tolist()
-# Enregistrer le model
-classifier = model.named_steps['classifier']
 
 @app.get("/", response_class=PlainTextResponse)
 async def running():
@@ -36,10 +30,10 @@ async def favicon():
     return FileResponse(favicon_path)
 																	
 class fraudDetection(BaseModel):
-     client_id:float
-	
-#importer dataframe des données clients tests
+    client_id:float
 
+	
+#importing dataframe of test customer data
 df_test_prod = pd.read_csv('df_test_ok_prod_100_V7.csv', index_col=[0])
 # supprimer target
 df_test_prod.drop(columns=['TARGET'], inplace=True)
@@ -51,56 +45,33 @@ clients_id = df_test_prod["SK_ID_CURR"].tolist()
 
 @app.post('/predict')
 def predict(data : fraudDetection):
-	
                                                                                                                                                                                                                                 
     features = np.array([data.client_id])
 
-    client_id = features[0]
-	
-# sync def predict(client_id : int):
-    predictions = model.predict_proba(data).tolist()
-    predict_proba = []
-    for pred, ID in zip(predictions, list_ID):
-        if ID == client_id:
-            predict_proba.append(pred[1])
-#     return predict_proba[0]
 
-    return client_id
-                                                                                                                                                                                                                                
-#     features = np.array([data.step])
-# #     model = joblib.load('credit_fraud.pkl')
+    id = features[0]
 
-# #     predictions = model.predict(features)
-# #     if predictions == 1:
-# #         return {"Bad"}
-# #     elif predictions == 0:
-# #         return {"not Bad"}
-
-#     id = features[0]
-
-#     if id not in clients_id:
-#         raise HTTPException(status_code=404, detail="client's id not found")
+    if id not in clients_id:
+        raise HTTPException(status_code=404, detail="client's id not found")
     
-#     else:
+    else:
         
         
-#         pipe_prod = joblib.load('LGBM_pipe_version7.pkl')
+        pipe_prod = joblib.load('LGBM_pipe_version7.pkl')
     
-#         values_id_client = df_test_prod_request.loc[[id]]
+        values_id_client = df_test_prod_request.loc[[id]]
        
-#         # Définir le best threshold
-#         prob_preds = pipe_prod.predict_proba(values_id_client)
+        # Defining the best threshold
+        prob_preds = pipe_prod.predict_proba(values_id_client)
         
-#         #Fast_API_prob_preds
-#         threshold = 0.332# definir threshold ici
-#         y_test_prob = [1 if prob_preds[i][1]> threshold else 0 for i in range(len(prob_preds))]
+        #Fast_API_prob_preds
+        threshold = 0.332 #threshold
+        y_test_prob = [1 if prob_preds[i][1]> threshold else 0 for i in range(len(prob_preds))]
         
        
 #         return {
 #             "prediction": y_test_prob[0],
 #             "probability_0" : prob_preds[0][0],
 #             "probability_1" : prob_preds[0][1],}
-# #         return id
 
-# if __name__ == "__main__":
-#     uvicorn.run(app, host="127.0.0.1", port=8090)
+	return id
