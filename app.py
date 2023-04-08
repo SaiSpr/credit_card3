@@ -68,6 +68,17 @@ def predict(data : fraudDetection):
             predict_proba.append(pred[1])
     return predict_proba[0]
 
+@app.post("/predict")
+async def predict(data : fraudDetection):
+    request_body = await data.json()
+    client_id = request_body['client_id']
+    predictions = model.predict_proba(data).tolist()
+    predict_proba = []
+    for pred, ID in zip(predictions, list_ID):
+        if ID == client_id:
+            predict_proba.append(pred[1])
+    return predict_proba[0]
+
 #     if id not in clients_id:
 #         raise HTTPException(status_code=404, detail="client's id not found")
     
