@@ -52,21 +52,21 @@ classifier = model.named_steps['classifier']
 ##########################################
 
 
-@app.post('/predict')
-def predict(data : fraudDetection):
+# @app.post('/predict')
+# def predict(data : fraudDetection):
                                                                                                                                                                                                                                 
-    features = np.array([data.client_id])
+#     features = np.array([data.client_id])
 
-#     id = features[0]
+# #     id = features[0]
 
-    client_id = features[0]
+#     client_id = features[0]
 	
-    predictions = model.predict_proba(data).tolist()
-    predict_proba = []
-    for pred, ID in zip(predictions, list_ID):
-        if ID == client_id:
-            predict_proba.append(pred[1])
-    return predict_proba[0]
+#     predictions = model.predict_proba(data).tolist()
+#     predict_proba = []
+#     for pred, ID in zip(predictions, list_ID):
+#         if ID == client_id:
+#             predict_proba.append(pred[1])
+#     return predict_proba[0]
 
 @app.post("/predict")
 async def predict(data : fraudDetection):
