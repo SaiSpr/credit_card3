@@ -173,7 +173,7 @@ if st.button("Detection Result"):
 #     API_GET = API_PRED+(str(profile_ID))
 #     score_client = 100-int(re.get(API_GET).json()*100)
     score_client = resp
-    st.write("score_client":score_client)
+    st.write("score_client:",score_client)
     if score_client < threshold:
         st.sidebar.write("Prêt refusé")
     else:
