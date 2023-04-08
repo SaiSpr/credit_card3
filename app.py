@@ -42,14 +42,31 @@ df_test_prod_request  = df_test_prod.set_index('SK_ID_CURR')
 # Création list des clients 
 clients_id = df_test_prod["SK_ID_CURR"].tolist() 
 
+##################################################
+# Chargement du modèle
+model = joblib.load('model.pkl')
+data = joblib.load('sample_test_set.pickle')
+list_ID = data.index.tolist()
+# Enregistrer le model
+classifier = model.named_steps['classifier']
+##########################################
+
 
 @app.post('/predict')
 def predict(data : fraudDetection):
                                                                                                                                                                                                                                 
     features = np.array([data.client_id])
 
+#     id = features[0]
 
-    id = features[0]
+    client_id = features[0]
+	
+    predictions = model.predict_proba(data).tolist()
+    predict_proba = []
+    for pred, ID in zip(predictions, list_ID):
+        if ID == client_id:
+            predict_proba.append(pred[1])
+    return predict_proba[0]
 
 #     if id not in clients_id:
 #         raise HTTPException(status_code=404, detail="client's id not found")
@@ -69,5 +86,5 @@ def predict(data : fraudDetection):
 #         y_test_prob = [1 if prob_preds[i][1]> threshold else 0 for i in range(len(prob_preds))]
         
        
-    return {"prediction": id}
+#     return {"prediction": id}
 
